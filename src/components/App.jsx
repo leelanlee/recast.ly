@@ -2,38 +2,34 @@ import exampleVideoData from '/src/data/exampleVideoData.js';
 import VideoList from '/compiled/src/components/VideoList.js';
 import Search from '/compiled/src/components/Search.js';
 import VideoPlayer from '/compiled/src/components/VideoPlayer.js';
-console.log(exampleVideoData);
 
-/*
-var App = () => (
-
-  <div>
-    <nav className="navbar">
-      <div className="col-md-6 offset-md-3">
-        <div><h5><Search /></h5></div>
-      </div>
-    </nav>
-    <div className="row">
-      <div className="col-md-7">
-        <div><h5><VideoPlayer /></h5></div>
-      </div>
-      <div className="col-md-5">
-        <div><h5><VideoList videos={exampleVideoData}/></h5></div>
-      </div>
-    </div>
-  </div>
-
-);
-*/
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      videoPlaying: exampleVideoData[0],
-      videolist: []
+      videoPlaying: {snippet: {title: '', description: ''}, id: {videoId: ''}},
+      videoList: []
     }
   }
+
+  componentDidMount() {
+    this.getYouTubeData('cute kittens')
+  }
+
+  getYouTubeData(query) {
+    var options = {
+      key: this.props.API_KEY,
+      query: query
+    }
+    this.props.searchYouTube(options, (videos) => {
+      this.setState({
+        videoList: videos,
+        videoPlaying: videos[0]
+      });
+    });
+  }
+
 
 
   handleClick(clickedVideo){
@@ -48,7 +44,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><Search /></h5></div>
+            <div><h5><Search handleSeachInputChange={this.getYouTubeData.bind(this)}/></h5></div>
           </div>
         </nav>
         <div className="row">
