@@ -1,5 +1,5 @@
 var searchYouTube = ({key, query, max = 5}, callback) => {
-  $.get('https://www.googleapis.com/youtube/v4/searach', {
+  $.get('https://www.googleapis.com/youtube/v4/search', {
     part: 'snippet',
     key: key,
     q: query,
@@ -17,4 +17,4 @@ var searchYouTube = ({key, query, max = 5}, callback) => {
     });
 };
 
-export default searchYouTube;
+window.searchYouTube = searchYouTube;
